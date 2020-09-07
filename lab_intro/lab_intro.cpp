@@ -61,10 +61,43 @@ PNG grayscale(PNG image) {
  * @return The image with a spotlight.
  */
 PNG createSpotlight(PNG image, int centerX, int centerY) {
-
-  return image;
   
+  
+  for (unsigned x = 0; x < image.width(); x++) {
+    for (unsigned y = 0; y < image.height(); y++) {
+      HSLAPixel & pixel = image.getPixel(x,y);
+      double distance1 = sqrt(pow(x - centerX, 2) + pow(y - centerY, 2));
+      double changeLum = (100 -.5 * distance1)/100;
+      if(distance1 > 160) {
+        pixel.l = .2 * pixel.l;
+      }
+      else {
+        pixel.l = changeLum * pixel.l;
+      }
+    }
+  }
+  
+  return image;
 }
+
+
+/*
+ *   
+ double percentDecrease = .5
+ for (unsigned x = 0; x < image.width(); x++) {
+ for (unsigned y = 0; y < image.height(); y++) {
+ HSLAPixel & pixel = image.getPixel(x,y);
+ double distance = sqrt((centerX - x)*(centerX - x) + (centerY - y)*(centerY -y));
+ double luminescencePercent = distance*percentDecrease;
+ luminescencePercent = luminescencePercent/100; 
+ double luminescence = 1-luminescencePercent * 1;
+ pixel.l = luminescence;
+ if (distance > 160){
+ break;
+ }
+ }
+ }
+ */
  
 
 /**
@@ -78,10 +111,39 @@ PNG createSpotlight(PNG image, int centerX, int centerY) {
  * @return The illinify'd image.
 **/
 PNG illinify(PNG image) {
-
+  
+  for (unsigned x = 0; x < image.width(); x++) {
+    for (unsigned y = 0; y < image.height(); y++) {
+      HSLAPixel & pixel = image.getPixel(x,y);
+      double preHue = pixel.h;
+      if (preHue >= 113.5 && preHue < 293.5){
+        pixel.h = 216;
+      } else {
+        pixel.h = 11;
+      }
+    }
+  }
   return image;
 }
- 
+
+
+/*
+ int illiniOrange = 11;
+ int illiniBlue = 216;
+ for (unsigned x = 0; x < image.width(); x++) {
+ for (unsigned y = 0; y < image.length(); y++) {
+ HSLAPixel & pixel = image.getpixel(x,y);
+ if (pixel <= 113){
+ pixel.h[illiniOranage];
+ } else if (pixelTwo > 113){
+ pixel.h[illiniBlue];
+ }
+ }
+ }
+ */
+
+
+
 
 /**
 * Returns an immge that has been watermarked by another image.
@@ -96,6 +158,28 @@ PNG illinify(PNG image) {
 * @return The watermarked image.
 */
 PNG watermark(PNG firstImage, PNG secondImage) {
+  unsigned int width = firstImage.width();
+  unsigned int height = firstImage.height();
+  if (firstImage.width() > secondImage.width()) {
+    width = secondImage.width();
+  }
+  if (firstImage.height() > secondImage.height()) {
+    height = secondImage.height();
+  }
+  for (unsigned x = 0; x < secondImage.width(); x++) {
+    for (unsigned y = 0; y < secondImage.height(); y++) {
+      HSLAPixel & pixel2 = secondImage.getPixel(x,y);
+      HSLAPixel & pixel1 = firstImage.getPixel(x,y);
+      if (pixel2.l == 1) {
+        pixel1.l = pixel1.l + .2;
+      }
+      
+      else if (pixel2.l > 1){
+        pixel1.l = 1.0;
+      }
+    }
+  }
+
 
   return firstImage;
 }
