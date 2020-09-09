@@ -67,7 +67,7 @@ PNG createSpotlight(PNG image, int centerX, int centerY) {
     for (unsigned y = 0; y < image.height(); y++) {
       HSLAPixel & pixel = image.getPixel(x,y);
       double distance1 = sqrt(pow(x - centerX, 2) + pow(y - centerY, 2));
-      double changeLum = (100 -.5 * distance1)/100;
+      double changeLum = ((100 -.5 * distance1)/100);
       if(distance1 > 160) {
         pixel.l = .2 * pixel.l;
       }
@@ -116,7 +116,7 @@ PNG illinify(PNG image) {
     for (unsigned y = 0; y < image.height(); y++) {
       HSLAPixel & pixel = image.getPixel(x,y);
       double preHue = pixel.h;
-      if (preHue >= 113.5 && preHue < 293.5){
+      if (preHue >= 113.5 && preHue <= 293.5){
         pixel.h = 216;
       } else {
         pixel.h = 11;
