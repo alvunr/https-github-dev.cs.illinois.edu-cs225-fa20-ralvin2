@@ -22,10 +22,6 @@ else
 CLANG_VERSION_MSG = $(warning $(ccyellow) Looks like you are not on EWS. Be sure to test on EWS before the deadline. $(ccend))
 endif
 
-output_msg: ; $(CLANG_VERSION_MSG)
-
-# Be sure to add output_msg as dependency target for your `intro` binary
-
 all : $(EXENAME)
 
 output_msg : ; $(CLANG_VERSION_MSG)
@@ -46,14 +42,18 @@ main.o : main.cpp intro.h cs225/PNG.h cs225/HSLAPixel.h
 intro.o : intro.cpp intro.h 
 	$(CXX) $(CXXFLAGS) intro.cpp
 
-PNG.o : cs225/PNG.cpp cs225/PNG.h cs225/HSLAPixel.h cs225/lodepng/lodepng.h
-	$(CXX) $(CXXFLAGS) cs225/PNG.cpp
+
+lodepng.o : cs225/lodepng/lodepng.cpp cs225/lodepng/lodepng.h
+	$(CXX) $(CXXFLAGS) cs225/lodepng/lodepng.cpp
+
 
 HSLAPixel.o : cs225/HSLAPixel.cpp cs225/HSLAPixel.h
 	$(CXX) $(CXXFLAGS) cs225/HSLAPixel.cpp
 
-lodepng.o : cs225/lodepng/lodepng.cpp cs225/lodepng/lodepng.h
-	$(CXX) $(CXXFLAGS) cs225/lodepng/lodepng.cpp
+
+PNG.o : cs225/PNG.cpp cs225/PNG.h cs225/HSLAPixel.h cs225/lodepng/lodepng.h
+	$(CXX) $(CXXFLAGS) cs225/PNG.cpp
+
 
 
 clean :
