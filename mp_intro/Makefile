@@ -39,12 +39,12 @@ tests.o: tests/tests.cpp tests/catch.hpp cs225/PNG.h cs225/HSLAPixel.h
 main.o : main.cpp intro.h cs225/PNG.h cs225/HSLAPixel.h
 	$(CXX) $(CXXFLAGS) main.cpp
 
-intro.o : intro.cpp intro.h 
-	$(CXX) $(CXXFLAGS) intro.cpp
-
-
 lodepng.o : cs225/lodepng/lodepng.cpp cs225/lodepng/lodepng.h
 	$(CXX) $(CXXFLAGS) cs225/lodepng/lodepng.cpp
+
+
+intro.o : intro.cpp intro.h 
+	$(CXX) $(CXXFLAGS) intro.cpp
 
 
 HSLAPixel.o : cs225/HSLAPixel.cpp cs225/HSLAPixel.h
