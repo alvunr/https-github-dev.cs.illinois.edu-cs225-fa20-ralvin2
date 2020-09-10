@@ -27,14 +27,14 @@ void rotate(std::string inputFile, std::string outputFile) {
   for (unsigned y = 0; y < imageHeight; y++) {
     for (unsigned x = 0; x < imageWidth; x++) {
       HSLAPixel & starting = imageRotate->getPixel(x,y);
-      HSLAPixel & ending = imageRotate->getPixel(imageWidth - 1- x,imageHeight - 1 - y);
-      starting = ending;
+      HSLAPixel & ending = blankOutput->getPixel(imageWidth - x - 1, imageHeight - y - 1);
+      ending = starting;
       //HSLAPixel & outputPixels = blankOutput->getPixel(x,y);
       
     }
   }
   
-  imageRotate->writeToFile(outputFile);
+  blankOutput->writeToFile(outputFile);
   delete imageRotate;
   delete blankOutput;
   
@@ -45,8 +45,37 @@ void rotate(std::string inputFile, std::string outputFile) {
 cs225::PNG myArt(unsigned int width, unsigned int height) {
   cs225::PNG png(width, height);
   
+  //PNG* artPng = new PNG();
+  //unsigned imageWidth = artPng->get.width();
+  for (unsigned x = 0; x < width; x++) {
+    for (unsigned y = 0; y < height; y++) {
+      
+      double distanceOne = (width/3);
+      double distanceTwo = (2*width/3);
+      
+    
+      if (x < distanceOne) {
+        HSLAPixel & pixel = png.getPixel(x,y);
+        HSLAPixel pixelTwo(100, 1.0, 0.5);
+        pixel = pixelTwo;
+      }
+      
+      
+      if (x >= distanceOne && x < distanceTwo){
+        HSLAPixel & pixel = png.getPixel(x,y);
+        HSLAPixel pixelTwo(260, 1.0, 0.5);
+        pixel = pixelTwo;
+      }
+      
   
-  
+      if (x >= distanceTwo){
+        HSLAPixel & pixel = png.getPixel(x,y);
+        HSLAPixel pixelTwo(360, 1.0, 0.5);
+        pixel = pixelTwo;
+      }
+    
+    }
+  }
   
   
   // TODO: Part 3
